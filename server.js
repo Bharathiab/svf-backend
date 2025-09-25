@@ -14,7 +14,12 @@ const PORT = process.env.PORT || 8080;
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// Root route
+app.get('/', (req, res) => {
+  res.send('✅ Server is running! Welcome to SVF Backend ❤️');
+});
+
+// API Routes
 app.use('/api/contact', contactRoutes);
 
 // MongoDB connection
