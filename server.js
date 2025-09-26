@@ -1,8 +1,8 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const contactRoutes = require('./routes/contact');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const contactRoutes = require("./routes/contact");
 
 // Load environment variables
 dotenv.config();
@@ -15,21 +15,26 @@ app.use(cors());
 app.use(express.json());
 
 // Root route
-app.get('/', (req, res) => {
-  res.send('✅ Server is running! Welcome to SVF Backend ❤️');
+app.get("/", (req, res) => {
+  res.send("✅ Server is running! Welcome to SVF Backend ❤️");
 });
 
 // API Routes
-app.use('/api/contact', contactRoutes);
+app.use("/api/contact", contactRoutes);
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('✅ Connected to MongoDB');
-  })
-  .catch((error) => {
-    console.error('❌ MongoDB connection error:', error);
-  });
+if (process.env.MONGO_URI) {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+      console.log("✅ Connected to MongoDB");
+    })
+    .catch((error) => {
+      console.error("❌ MongoDB connection error:", error);
+    });
+} else {
+  console.log("⚠️ No MONGO_URI provided, skipping MongoDB connection");
+}
 
 // Start server
 app.listen(PORT, () => {
